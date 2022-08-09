@@ -36,27 +36,27 @@ Use df -h command to see all mounts and free space on your server
 
 ![image for xvdh](./images/Project-6-image-5-gdisk-xvdh.PNG)
 
-### Use lsblk utility to view the newly configured partition on each of the 3 disks.` 
+*  Using lsblk utility to view the newly configured partition on each of the 3 disks.
 
 `lsblk `
 
 ![lsblk and df-h image ](./images/Project-6-image-6-lsblk-df-h-output.PNG)
 
 
-### Install lvm2 package 
+* Install lvm2 package 
 
 ` sudo yum install lvm2. ` 
 
 ![lvm2 install image ](./images/Project-6-image-7-lvm2-installation.PNG)
 
- ### check for available partitions. 
+ * check for available partitions. 
 
  ` sudo lvmdiskscan `
 
  ![image of lvmscan](./images/Project-6-image-8-lvmdiskscan.PNG)
 
 
-### Use pvcreate utility to mark each of 3 disks as physical volumes (PVs) to be used by LVM
+* Use pvcreate utility to mark each of 3 disks as physical volumes (PVs) to be used by LVM
 
 ` sudo pvcreate /dev/xvdf1 `
 
@@ -67,27 +67,27 @@ Use df -h command to see all mounts and free space on your server
 
 ![images of pvcreate](./images/Project-6-image-9-pvcreate.PNG)
 
-Verify that your Physical volume has been created successfully by running 
+* Verify that your Physical volume has been created successfully by running 
 
 ` sudo pvs ` 
 
 ![image of pvs](./images/Project-6-image-9a-sudo-pvs.PNG)
 
 
-### Use vgcreate utility to add all 3 PVs to a volume group (VG) and name the VG webdata-vg 
+*  Use vgcreate utility to add all 3 PVs to a volume group (VG) and name the VG webdata-vg 
 
 ` sudo vgcreate webdata-vg /dev/xvdh1 /dev/xvdg1 /dev/xvdf1 `
 
 ![images of vgcreate](./images/Project-6-image-10-vgcreate-vgs.PNG)
 
 
-### Verify that your VG has been created successfully by running 
+* Verify that your VG has been created successfully by running 
 
 ` sudo vgs `
 
 ![image of vgs](./images/Project-6-image-10a-sudo-vgs.PNG)
 
-### Use lvcreate utility to create 2 logical volumes, apps-lv and logs-lv. Use half of the PV size for apps-lv and the remaining space of the PV size for logs-lv.  Note: apps-lv will be used to store data for the Website while logs-lv will be used to store data for logs
+*  Use lvcreate utility to create 2 logical volumes, apps-lv and logs-lv. Use half of the PV size for apps-lv and the remaining space of the PV size for logs-lv.  Note: apps-lv will be used to store data for the Website while logs-lv will be used to store data for logs
 
 ` sudo lvcreate -n apps-lv -L 14G webdata-vg `
 
@@ -119,7 +119,7 @@ Verify that your Physical volume has been created successfully by running
 
 ![images of mkfs ](./images/Project-6-image-14-mkfs-ext4-apps-lv-logs-lv.PNG)
 
-### Create /var/www/html directory to store website files and  Create /home/recovery/ logs directory to store backup of log data
+* Create /var/www/html directory to store website files and  Create /home/recovery/ logs directory to store backup of log data
 
 ` sudo mkdir -p /var/www/html ` 
 
@@ -127,13 +127,13 @@ Verify that your Physical volume has been created successfully by running
 
 ![images for both html and logs](./images/Project-6-image-15-mkdir-var-www-html-and-home-recovery-logs.PNG)
 
-### Mount /var/www/html on apps-lv logical volume
+* Mount /var/www/html on apps-lv logical volume
 
 ` sudo mount /dev/webdata-vg/apps-lv /var/www/html/ ` 
 
 ![images of mount /dev/webdata-vg/apps-lv /var/www/html](./images/Project-6-image-16a-mount-apps-lv-to-html.PNG)
 
-### Use rsync utility to backup all the files in the log directory /var/log into /home/recovery/logs (This is required before mounting the file system)
+* Use rsync utility to backup all the files in the log directory /var/log into /home/recovery/logs (This is required before mounting the file system)
 
 ` sudo rsync -av /var/log/. /home/recovery/logs/ ` 
 
@@ -166,7 +166,7 @@ Verify that your Physical volume has been created successfully by running
 
 
 
-### Test the configuration and reload the daemon
+* Test the configuration and reload the daemon
 
  ` sudo mount -a `
 
